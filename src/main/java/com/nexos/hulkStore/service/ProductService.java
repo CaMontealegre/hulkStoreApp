@@ -15,11 +15,11 @@ public interface ProductService {
 
     public Iterable<Product> getAllProduct();
 
-    public Product getAllProductById(String id);
+    public Product getAllProductById(String id) throws Exception;
 
     public Product createProduct(Product user);
 
-    public Product editProduct(Product user);
+    public Product editProduct(Product user) throws Exception;
 
     public void deleteProduct(String id);
 

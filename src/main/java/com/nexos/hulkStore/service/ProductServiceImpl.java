@@ -26,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getAllProductById(String id) {
-        return productRepository.findById(id).get();
+    public Product getAllProductById(String id) throws Exception {
+        return productRepository.findById(id).orElseThrow(() -> new Exception("El Id del producto no existe"));
     }
 
     @Override
@@ -36,8 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product editProduct(Product user) {
-
+    public Product editProduct(Product user) throws Exception {
         Product userFind = getAllProductById(user.getId());
         validateEditProduct(user, userFind);
         return productRepository.save(userFind);
@@ -50,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
 
     protected void validateEditProduct(Product initial, Product end) {
         end.setDescription(initial.getDescription());
-        end.setBrand(initial.getDescription());
-        end.setPrice(initial.getDescription());
-        end.setQuantity(initial.getDescription());
+        end.setBrand(initial.getBrand());
+        end.setPrice(initial.getPrice());
+        end.setQuantity(initial.getQuantity());
     }
 }

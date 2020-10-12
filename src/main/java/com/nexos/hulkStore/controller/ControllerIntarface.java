@@ -5,7 +5,6 @@
  */
 package com.nexos.hulkStore.controller;
 
-import com.nexos.hulkStore.domain.Login;
 import com.nexos.hulkStore.domain.Product;
 import com.nexos.hulkStore.domain.User;
 import com.nexos.hulkStore.service.ProductService;
@@ -43,17 +42,17 @@ public class ControllerIntarface {
     }
 
     @PostMapping("/login")
-    public String loginValidate(@ModelAttribute("loginForm") Login user, ModelMap model) {
+    public String loginValidate(@ModelAttribute("loginForm") User user, ModelMap model) {
         try {
             User response = userService.getAllUserById(user.getName());
 
             if (user.getPass().equals(response.getPass())) {
                 if (response.getRol().equals("1")) {
                     LOGGER.info("Send to formAdmin......");
-                    return "redirect:/workerForm";
+                    return "redirect:/listForm";
                 } else {
                     LOGGER.info("Send to formCustomer......");
-                    return "redirect:/productlistForm";
+                    return "redirect:/productlistClientForm";
                 }
             }
             model.addAttribute("errorMessage", "Contraseña incorrecta");
@@ -64,11 +63,6 @@ public class ControllerIntarface {
             LOGGER.info("El usuario no existe....");
             return "login-form";
         }
-    }
-
-    @GetMapping("/workerForm")
-    public String wsorkerForm() {
-        return "worker-view";
     }
 
     /**
@@ -115,12 +109,6 @@ public class ControllerIntarface {
         }
     }
 
-    /**
-     * create
-     */
-    /**
-     * edit
-     */
     @GetMapping("/editUser/{id}")
     public String getEditForm(ModelMap model, @PathVariable(name = "id") String id) {
         User user = userService.getAllUserById(id);
@@ -178,12 +166,18 @@ public class ControllerIntarface {
      * list and delete
      */
     /**
-     * product
+     * productproductlistClientForm
      */
     @GetMapping("/productlistForm")
     public String productListForm(ModelMap model) {
         model.addAttribute("productList", productService.getAllProduct());
         return "listProduct-form";
+    }
+
+    @GetMapping("/productlistClientForm")
+    public String productlistClientForm(ModelMap model) {
+        model.addAttribute("productList", productService.getAllProduct());
+        return "listProductClient-form";
     }
 
     @GetMapping("/productForm")
@@ -209,7 +203,7 @@ public class ControllerIntarface {
     }
 
     @GetMapping("/editProduct/{id}")
-    public String getEditProduct(ModelMap model, @PathVariable(name = "id") String id) {
+    public String getEditProduct(ModelMap model, @PathVariable(name = "id") String id) throws Exception {
         Product product = productService.getAllProductById(id);
         model.addAttribute("productForm", product);
         model.addAttribute("editMode", "true");
@@ -217,7 +211,7 @@ public class ControllerIntarface {
     }
 
     @PostMapping("/editProduct")
-    public String postEditForm(@ModelAttribute("productForm") Product product, ModelMap model) {
+    public String postEditProductForm(@ModelAttribute("productForm") Product product, ModelMap model) {
         try {
             productService.editProduct(product);
             model.addAttribute("succesMessage", "Producto editado con exito.");

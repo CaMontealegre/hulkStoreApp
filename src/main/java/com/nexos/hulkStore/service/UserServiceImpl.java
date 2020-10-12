@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User editUser(User user) {
-        User userFind = getAllUserById(user.getId());
+        User userFind = userRepository.findById(user.getId()).get();
         validateEditUser(user, userFind);
         return userRepository.save(userFind);
     }
