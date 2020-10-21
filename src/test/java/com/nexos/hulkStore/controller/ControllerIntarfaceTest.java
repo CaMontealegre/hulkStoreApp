@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.ui.ModelMap;
 
@@ -72,6 +73,31 @@ public class ControllerIntarfaceTest {
     public void testLoginValidate() {
         User user = createUser();
         ModelMap map = createMap();
+        String form = controllerIntarface.loginValidate(user, map);
+        assertNotNull(form);
+    }
+
+    /**
+     * Test of loginValidate method, of class ControllerIntarface.
+     */
+    @Test
+    public void testLoginValidateStageOne() {
+        User user = createUser();
+        ModelMap map = createMap();
+        when(userService.getAllUserById(user.getId())).thenReturn(user);
+        String form = controllerIntarface.loginValidate(user, map);
+        assertNotNull(form);
+    }
+
+    /**
+     * Test of loginValidate method, of class ControllerIntarface.
+     */
+    @Test
+    public void testLoginValidateStageTwo() {
+        User user = createUser();
+        user.setId("1");
+        ModelMap map = createMap();
+        when(userService.getAllUserById(user.getId())).thenReturn(user);
         String form = controllerIntarface.loginValidate(user, map);
         assertNotNull(form);
     }
@@ -221,10 +247,9 @@ public class ControllerIntarfaceTest {
     }
 
     private User createUser() {
-
         User user = new User();
         user.setId("008");
-        user.setName("test");
+        user.setName("008");
         user.setEmail("test@.gmail.com");
         user.setPass("1234");
         user.setRol("2");
@@ -232,14 +257,12 @@ public class ControllerIntarfaceTest {
     }
 
     private Product createProduct() {
-
         Product product = new Product();
         product.setId("134");
         product.setDescription("test");
         product.setBrand("test");
         product.setPrice("10.000");
         product.setQuantity("33");
-
         return product;
     }
 

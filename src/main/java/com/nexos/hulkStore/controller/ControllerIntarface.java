@@ -236,6 +236,14 @@ public class ControllerIntarface {
         }
         return productListForm(model);
     }
+
+    /**
+     * product
+     */
+    @GetMapping("/getShoppingCar")
+    public String getShoppingCar(ModelMap model) {
+        return "";
+    }
     /**
      * product
      */

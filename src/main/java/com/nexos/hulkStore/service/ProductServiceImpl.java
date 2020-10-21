@@ -27,7 +27,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getAllProductById(String id) throws Exception {
-        return productRepository.findById(id).orElseThrow(() -> new Exception("El Id del producto no existe"));
+        Product product = new Product();
+        return productRepository.findById(id).orElse(product);
     }
 
     @Override

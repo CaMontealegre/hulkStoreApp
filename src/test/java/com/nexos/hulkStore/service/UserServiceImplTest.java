@@ -49,6 +49,7 @@ public class UserServiceImplTest {
 
     @Before
     public void setUp() {
+
     }
 
     @After
@@ -113,5 +114,4 @@ public class UserServiceImplTest {
         User response = userServiceImpl.editUser(user);
         assertNull(response);
     }
-
 }

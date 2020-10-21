@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getAllUserById(String id) {
-        return userRepository.findById(id).get();
+        User user = new User();
+        return userRepository.findById(id).orElse(user);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User editUser(User user) {
-        User userFind = userRepository.findById(user.getId()).get();
+        User userFind = getAllUserById(user.getId());
         validateEditUser(user, userFind);
         return userRepository.save(userFind);
     }
